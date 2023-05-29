@@ -1,0 +1,41 @@
+import heapq
+
+def greedy_search_prim_minimum_spanning_tree(graph):
+    start_vertex = next(iter(graph)) 
+
+    visited = set()
+    minimum_spanning_tree = []
+    priority_queue = []
+
+    heapq.heappush(priority_queue, (0, start_vertex))
+
+    while priority_queue:
+        weight, current_vertex = heapq.heappop(priority_queue)
+
+        if current_vertex in visited:
+            continue
+
+        visited.add(current_vertex)
+
+        for neighbor, edge_weight in graph[current_vertex].items():
+            if neighbor not in visited:
+                heapq.heappush(priority_queue, (edge_weight, neighbor))
+
+        if weight > 0: 
+            minimum_spanning_tree.append((current_vertex, weight))
+
+    return minimum_spanning_tree
+
+
+graph = {
+    'A': {'B': 5, 'C': 1},
+    'B': {'A': 5, 'C': 2, 'D': 1},
+    'C': {'A': 1, 'B': 2, 'D': 4},
+    'D': {'B': 1, 'C': 4}
+}
+
+minimum_spanning_tree = greedy_search_prim_minimum_spanning_tree(graph)
+
+print("Minimum Spanning Tree:")
+for vertex, weight in minimum_spanning_tree:
+    print(f"To vertex {vertex} with weight {weight}")

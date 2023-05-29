@@ -1,0 +1,34 @@
+def greedy_search_job_scheduling(jobs):
+
+    sorted_jobs = sorted(jobs, key=lambda x: x[2], reverse=True)
+
+    max_profit = 0
+    schedule = [-1] * len(jobs)
+
+    for job in sorted_jobs:
+        deadline = job[1]
+
+        
+        slot = deadline - 1
+        while slot >= 0 and schedule[slot] != -1:
+            slot -= 1
+
+        if slot >= 0:
+            schedule[slot] = job[0]
+            max_profit += job[2]
+
+    return max_profit, schedule
+
+
+jobs = [
+    ('J1', 2, 100),
+    ('J2', 1, 50),
+    ('J3', 2, 75),
+    ('J4', 1, 200),
+    ('J5', 3, 150)
+]
+
+profit, schedule = greedy_search_job_scheduling(jobs)
+
+print("Maximum Profit:", profit)
+print("Schedule:", schedule)
